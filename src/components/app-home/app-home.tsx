@@ -1,9 +1,23 @@
-import { Component, h } from '@stencil/core';
+import { Component, h, Listen } from '@stencil/core';
 
 @Component({
   tag: 'app-home',
 })
 export class AppHome {
+  @Listen('ionViewWillEnter')
+  async view_will_enter() {
+    console.log( 'agenda', await this.get_agenda() );
+  }
+
+  async get_agenda() {
+    const response = await fetch(`/api/agenda`, {
+      method: 'GET',
+    });
+    const json = await response.json();
+
+    return json;
+  }
+
   render() {
     return [
       <ion-header>
